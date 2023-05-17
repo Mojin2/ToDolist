@@ -38,7 +38,7 @@ function ToDo({ text, category, id }: IToDo) {
       {catArr
         .filter((value) => value !== category)
         .map((cat) => (
-          <button name={`${cat}`} onClick={onClick}>
+          <button key={`${cat}`} name={`${cat}`} onClick={onClick}>
             {cat}
           </button>
         ))}
