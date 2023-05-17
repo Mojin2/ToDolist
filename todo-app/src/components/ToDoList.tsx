@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { categoryKind, categoryState, toDoSelector, toDoState } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
@@ -8,6 +9,61 @@ import ToDo from "./ToDo";
 interface ICreateCategory {
   newCat: string;
 }
+const Container = styled.div`
+  padding: 0px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  border: 2px solid white;
+  border-radius: 10px;
+  min-height: 600px;
+  margin-top: 20px;
+`;
+const Title = styled.div`
+  text-align: center;
+  justify-content: center;
+  margin: 20px;
+  color: whitesmoke;
+  font-size: 60px;
+  font-weight: 900;
+  padding: 20px 0px;
+`;
+
+const CategoryButton = styled.button`
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background-color: ${(props) => props.color};
+  color: white;
+  border-radius: 10px;
+  &:hover {
+    background-color: #f787a0;
+  }
+  width: 100px;
+  margin-right: 3px;
+`;
+const CategoryContainer = styled.div`
+  margin: 10px;
+  text-align: center;
+  justify-content: center;
+`;
+
+const CreateButton = styled.button`
+  border: none;
+  background-color: whitesmoke;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f787a0;
+  }
+`;
+
+const CreateInput = styled.input`
+  padding: 10px;
+`;
+const InputContainer = styled.div`
+  text-align: center;
+`;
+
 function ToDoList() {
   // const toDos = useRecoilValue(toDoState);
   const toDos = useRecoilValue(toDoSelector);
@@ -15,52 +71,48 @@ function ToDoList() {
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
   };
+  const onClick = (event: React.FormEvent<HTMLButtonElement>) => {
+    setCategory(event.currentTarget.value as any);
+  };
   const [catArr, setCatArr] = useRecoilState(categoryKind);
   const { register, handleSubmit, setValue } = useForm<ICreateCategory>();
   const onValid = (data: ICreateCategory) => {
-    setCatArr((cur) => [...cur, data.newCat]);
+    setCatArr((cur: any) => [...cur, data.newCat]);
     setValue("newCat", "");
   };
   return (
-    <div>
-      <h1>To Do List</h1>
-      <form onSubmit={handleSubmit(onValid)}>
-        <input {...register("newCat")} placeholder="Create new Category" />
-        <button>Create</button>
-      </form>
-      <select value={category} onInput={onInput}>
-        {catArr.map((cat) => (
-          <option key={cat} value={`${cat}`}>
-            {cat}
-          </option>
-        ))}
-        {/* <option value={"TO_DO"}>TO DO</option>
-        <option value={"DOING"}>Doing</option>
-        <option value={"DONE"}>Done</option> */}
-      </select>
+    <Container>
+      <Title>ToDoList</Title>
+      <InputContainer>
+        <form onSubmit={handleSubmit(onValid)}>
+          <CreateInput
+            {...register("newCat")}
+            placeholder="Create new Category"
+          />
+          <CreateButton>Create</CreateButton>
+        </form>
+      </InputContainer>
+      <CategoryContainer>
+        {catArr.map((cat: any) => {
+          const bgColor = cat === category ? `#f787a0` : `#3a76c2`;
+          return (
+            <CategoryButton
+              key={`${cat}`}
+              color={bgColor}
+              onClick={onClick}
+              value={`${cat}`}
+            >
+              {cat}
+            </CategoryButton>
+          );
+        })}
+      </CategoryContainer>
+
       <CreateToDo />
       {toDos?.map((toDo) => (
         <ToDo key={toDo.id} {...toDo} />
       ))}
-      {/* <h2>To Do</h2>
-      <ul>
-        {toDo.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
-      <h2>Doing</h2>
-      <ul>
-        {doing.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
-      <h2>Done</h2>
-      <ul>
-        {done.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul> */}
-    </div>
+    </Container>
   );
 }
 // interface IFormData {

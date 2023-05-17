@@ -1,6 +1,56 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { categoryKind, IToDo, toDoState } from "../atoms";
 
+const ChangeButton = styled.button`
+  background-color: #3a76c2;
+  color: whitesmoke;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color: #f787a0;
+  }
+  margin-left: 5px;
+  cursor: pointer;
+`;
+const DeleteButton = styled.button`
+  border: none;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+const Text = styled.span`
+  color: black;
+  margin-right: 20px;
+  font-size: 20px;
+  font-weight: 500;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  border: none;
+  margin: 5px auto;
+  justify-content: space-between;
+  text-align: center;
+  background-color: whitesmoke;
+  border-radius: 3px;
+  font-family: "Source Sans Pro", sans-serif;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const TextWrapper = styled.div`
+  padding-top: 12.5px;
+`;
+const ChangeButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const DeleteButtonWrapper = styled.div`
+  text-align: right;
+`;
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
   const catArr = useRecoilValue(categoryKind);
@@ -33,17 +83,25 @@ function ToDo({ text, category, id }: IToDo) {
   };
 
   return (
-    <li>
-      <span>{text}</span>
-      {catArr
-        .filter((value) => value !== category)
-        .map((cat) => (
-          <button key={`${cat}`} name={`${cat}`} onClick={onClick}>
-            {cat}
-          </button>
-        ))}
-      <button onClick={handleDelete}>❌</button>
-    </li>
+    <Wrapper>
+      <TextWrapper>
+        <Text>✅ {text}</Text>
+      </TextWrapper>
+      <ButtonWrapper>
+        <DeleteButtonWrapper>
+          <DeleteButton onClick={handleDelete}>❌</DeleteButton>
+        </DeleteButtonWrapper>
+        <ChangeButtonWrapper>
+          {catArr
+            .filter((value: any) => value !== category)
+            .map((cat: any) => (
+              <ChangeButton key={`${cat}`} name={`${cat}`} onClick={onClick}>
+                {cat}
+              </ChangeButton>
+            ))}
+        </ChangeButtonWrapper>
+      </ButtonWrapper>
+    </Wrapper>
   );
 }
 

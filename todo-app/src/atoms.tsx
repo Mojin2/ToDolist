@@ -12,8 +12,6 @@ export interface IToDo {
   category: string;
 }
 
-type Category = "TODO" | "DOING" | "DONE";
-
 export const toDoState = atom<IToDo[]>({
   key: "toDos",
   default: [],
@@ -28,6 +26,7 @@ export const categoryState = atom({
 export const categoryKind = atom({
   key: "categoryKind",
   default: ["TO_DO", "DOING", "DONE"],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const toDoSelector = selector({
