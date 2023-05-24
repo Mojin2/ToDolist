@@ -1,6 +1,6 @@
 # TypeScript 이용한 ToDo application
 
-Tpyecript + react-hook-form + recoil 연습
+Typescript + react-hook-form + recoil 연습
 <br><br>
 
 ## 🖥️ 프로젝트 소개
@@ -23,8 +23,9 @@ Tpyecript + react-hook-form + recoil 연습
 
 - atom을 통한 todoList 관리 ✅
 - custom 카테고리 추가 기능 ✅
+- custome 카테고리 조건부 입력
 - local storage를 이용한 persistence ✅
-- styled components이용 css구성
+- styled components이용 css구성 50% ✅
 - animation 적용
   <br><br><br>
 
@@ -82,13 +83,13 @@ const modFn = useSetRecoilState(atom) // 함수
 const value = useRecoilValue(atom) // 값
 ```
 
-- **selector** : atom에서 데이터를 변형시켜서 받을때 이용
+- selector : atom에서 데이터를 변형시켜서 받을때 이용
 
 ```
 export const toDoSelector = selector({
   key: "selector",
   get: ({ get }) => {
-    const toDos = get(toDoState);
+    const toDos = get(toDoState); //get함수를 통해 atom을 가져옴
     const category = get(categoryState);
     return toDos.filter((value) => value.category === category);
   },

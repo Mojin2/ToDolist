@@ -2,6 +2,7 @@ import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { lightTheme } from "./theme";
 import ToDoList from "./components/ToDoList";
+import Recoilprc from "./components/Recoilprc";
 
 // RESET.css //
 const GlobalStyle = createGlobalStyle`
@@ -56,7 +57,7 @@ table {
 }
 body{
 font-family: 'Playfair Display', serif;
-  background-color: #404756;
+  background-color: #3f8cf2;
 }
 a{
   text-decoration:none;
@@ -66,7 +67,8 @@ a{
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
-      <ToDoList />
+      {/* <ToDoList /> */}
+      <Recoilprc />
       <GlobalStyle />
     </ThemeProvider>
   );
